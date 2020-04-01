@@ -34,9 +34,11 @@ class DataTable extends React.Component {
 
     componentDidMount() {
         const self = this;
-        axios.get(`http://localhost:8090/api/v1/citizens`)
+        axios.get(`http://204.236.246.168:8090/api/v1/citizens`)
             .then((res) => {
-                res.data.map(elem => countries.includes(elem.country)?countries.push(elem.country):"");
+                console.log("res---",res.data)
+                res.data.map(elem => !countries.includes(elem.country)?countries.push(elem.country):"");
+                console.log("conut",countries)
                 self.setState({
                     data: res.data,
                     filteredData: res.data
@@ -44,7 +46,7 @@ class DataTable extends React.Component {
             })
     }
     addUser = () =>{
-        axios.post("http://localhost:8090/api/v1/citizens",this.state.payload)
+        axios.post("http://204.236.246.168:8090/api/v1/citizens",this.state.payload)
             .then((res) => {
                 this.setState({modal:false})
             })
@@ -52,7 +54,7 @@ class DataTable extends React.Component {
     updateStatus=(row)=>{
         let id=row.id;
         let status=row.isCovidPositive.toUpperCase() === "YES"   ? "NO" : "YES";
-        axios.put("http://localhost:8090/api/v1/citizens/"+row.id+"/status/"+status,this.state.payload)
+        axios.put("http://204.236.246.168:8090/api/v1/citizens/"+row.id+"/status/"+status,this.state.payload)
             .then((res) => {
                 this.componentDidMount();
             })
